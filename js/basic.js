@@ -18,14 +18,21 @@ let isOk = true; // boolean 타입.
 console.log(typeof isOk);
 
 // 원시데이터타입 vs. 복합데이터타입.
-let obj = { name: "홍길동", age: 20, height: 170 } // object 타입.
+let obj = {
+  name: "홍길동",
+  age: 20,
+  height: 170
+} // object 타입.
 console.log("이름은: " + obj.name); // 이름은: 홍길동
 console.log('나이는: ' + obj["age"] + ' 살'); // 나이는: 20 살
 
 num = 20;
 isOk = false;
 name = "김친구";
-obj = { name: "활길동", age: 22 }
+obj = {
+  name: "활길동",
+  age: 22
+}
 
 num = true;
 console.log(typeof num);
