@@ -7,6 +7,9 @@ let question = 1;
 
 if (question == 1) {
   // 1번 코드.
+  const thisYear = 2024;
+  let inputYear = prompt('태어난 년도를 입력하세요!');
+  
 
 } else if (question == 2) {
   // 2번 코드.
