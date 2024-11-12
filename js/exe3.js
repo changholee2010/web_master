@@ -4,7 +4,7 @@
 // 3. 최고값, 최소값 -> 입력숫자는 3개.
 
 let question = 3;
-let result;
+let result; // 전역변수(global variable)
 
 if (question == 1) {
   // 1번 코드.
@@ -26,12 +26,27 @@ if (question == 1) {
   let num2 = prompt('임의의값을 입력하세요!');
   let num3 = prompt('임의의값을 입력하세요!');
 
-  let max, min = 0;
-  if (num1 > num2) {
-    // 
+  // 동일한 값이 있으면 처리 안함.
+  if (num1 == num2 || num2 == num3 || num1 == num3) {
+    console.log('동일한 값이 존재합니다.');
+  } else {
+    let max = 0;
+    if (num1 > num2) {
+      if (num1 > num3) {
+        max = num1;
+      } else {
+        max = num3;
+      }
+    } else { // num2 > num1
+      // num3 과 비교.
+      if (num2 > num3) {
+        max = num2;
+      } else {
+        max = num3;
+      }
+    }
+  } // end of if (num1 == num2 || num2 == num3 || num1 == num3)
 
-  } else { // num2 > num1
 
-  }
 
 }
