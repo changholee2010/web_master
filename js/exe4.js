@@ -28,6 +28,7 @@ for (let i = 0; i < scoreAry.length - 1; i++) {
 sum = scoreAry.reduce((accm, item) => {
   return accm + item;
 }, 0);
+
 average = sum / scoreAry.length;
 max = scoreAry[4];
 min = scoreAry[0];
