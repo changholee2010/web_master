@@ -29,3 +29,15 @@ function showTime(time = new Date()) {
 
   return yyyy + '-' + MM + '-' + dd + ' ' + HH + ':' + mm + ':' + ss + ' ' + days[day];
 }
+console.clear();
+console.dir(window);
+
+function openWindow() {
+
+  let height = screen.availHeight;
+  let width = screen.availWidth;
+
+  let windowFeature = `left=${width/2-300},top=${height/2-150},width=600,height=300`
+  window.open('event.html', 'mozillaWindow', windowFeature);
+  // window.close();
+}

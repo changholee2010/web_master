@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+
+  <table border="2">
+    <tr>
+      <th>학생번호</th>
+      <td><input type="text" name="stdNo" id="stdNo"></td>
+    </tr>
+    <tr>
+      <th>이름</th>
+      <td><input type="text" name="stdName" id="stdName"></td>
+    </tr>
+    <tr>
+      <th>점수</th>
+      <td><input type="number" name="score" id="score"></td>
+    </tr>
+    <tr>
+      <td colspan="2" align="center">
+        <button>변경</button>
+      </td>
+    </tr>
+  </table>
+
+  <script>
+    let students = [
+	  { no: '24-001', name: '홍길동', score: 80 },
+      { no: '24-002', name: '김만복', score: 75 },
+      { no: '24-003', name: '홈쇼핑', score: 88 },
+      { no: '24-004', name: '이기자', score: 90 }
+    ]
+    // code here.
+    document.querySelector('input[name="stdNo"]').addEventListener('change', e => {
+      let stdNo = e.target.value;
+      let student = students.filter(student => {
+        return stdNo == student.no;
+      })
+      if (student.length) {
+        document.querySelector('input[name="stdName"]').value = student[0].name;
+      } else {
+        document.querySelector('input[name="stdName"]').value = "";
+      }
+    });
+  </script>
+</body>
+
+</html>

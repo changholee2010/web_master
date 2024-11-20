@@ -4,6 +4,7 @@ console.dir(document);
 document.onclick = function () {
   //alert('클릭했습니다.')
   // document.location.href = 'https://www.daum.net';
+  window.close();
 }
 
 document.querySelector('#showBtn').addEventListener('click', function () {

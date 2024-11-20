@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <table border="2">
+    <tr>
+      <th>아이디</th>
+      <td><input type="text" name="uid" id="uid"></td>
+    </tr>
+    <tr>
+      <th>비밀번호</th>
+      <td><input type="password" name="upw" id="upw"></td>
+    </tr>
+    <tr>
+      <td colspan="2" align="center">
+        <button>로그인</button>
+      </td>
+    </tr>
+  </table>
+
+  <script>
+    const memberData = localStorage.getItem('memberData');
+    let data = [];
+
+    data = JSON.parse(localStorage.getItem('memberData'));
+    console.log(data)
+    document.querySelector('button').addEventListener('click', e => {
+      let uid = document.querySelector('#uid').value;
+      let upw = document.querySelector('#upw').value;
+
+      let result = data.filter(member => member.id == uid && member.pw == upw);
+
+      if (result.length) {
+        // 로그인정보저장.
+        localStorage.setItem('logId', uid);
+        location.href = 'welcome.html';
+      } else {
+        alert('다시 로그인하세요.')
+      }
+    })
+  </script>
+</body>
+
+</html>

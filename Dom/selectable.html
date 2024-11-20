@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <select multiple style="height:150px">
+    <option>Row1</option>
+    <option>Row2</option>
+    <option>Row3</option>
+    <option>Row4</option>
+    <option>Row5</option>
+  </select>
+  <button id="moveRight">+</button>
+  <button id="moveLeft">-</button>
+  <select multiple style="height:150px">
+    <option>Row6</option>
+    <option>Row7</option>
+    <option>Row8</option>
+    <option>Row9</option>
+    <option>Row10</option>
+  </select>
+
+  <script>
+    //
+    document.querySelector('#moveRight').addEventListener('click', e => {
+      let target = document.querySelector('select:nth-of-type(2)');
+      while (true) {
+        let idx = document.querySelector('select').selectedIndex; //선택한 순번.
+        if (idx == -1) { // -1은 선택한 값이 없을 때.
+          break;
+        }
+        target.appendChild(document.querySelectorAll('select option')[idx]);
+      }
+    });
+
+    document.querySelector('#moveLeft').addEventListener('click', e => {
+      //선택한 순번.
+      let idx = document.querySelector('select:nth-of-type(2)').selectedIndex;
+      console.log(idx);
+      if (idx >= 0) { //선택한 값이 있을경우에만 아래 코드를 실행하도록.
+        let target = document.querySelector('select'); // 옮겨갈 대상.
+        target.appendChild(document.querySelectorAll('select:nth-of-type(2) option')[idx]);
+      }
+    });
+
+    //
+  </script>
+</body>
+
+</html>

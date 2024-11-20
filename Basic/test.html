@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <button id="player">선택</button>
+  <script>
+    console.clear();
+
+    document.querySelector('#player').addEventListener('click', function () {
+      let members = ['김예찬', '김태홍', '도한준', '박지희', '박혜원', '윤지원', '이신영', '이종우', '이지응', '조성민'];
+      let idxAry = [];
+      for (let i = 1; i <= 6;) {
+        let idx = parseInt(Math.random() * 10);
+        if (idxAry.indexOf(idx) == -1) {
+          idxAry.push(idx);
+          i++;
+          console.log(`${i}번 문제를 해설해 줄 사람=> ${members[idx]}`);
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>

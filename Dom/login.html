@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+
+  <table border="2">
+    <tr>
+      <th>아이디</th>
+      <td><input type="text" name="uid" id="uid"></td>
+    </tr>
+    <tr>
+      <th>비밀번호</th>
+      <td><input type="password" name="upw" id="upw"></td>
+    </tr>
+    <tr>
+      <td colspan="2" align="center">
+        <button>로그인</button>
+      </td>
+    </tr>
+  </table>
+
+  <script>
+    let members = [{ id: 'user01', pw: '1111', name: '사용자1' },
+      { id: 'user02', pw: '2222', name: '사용자2' },
+      { id: 'user03', pw: '3333', name: '사용자3' }
+    ]
+    // code here.
+    // 1. 이벤트등록.
+    // 2. 사용자 입력값(2개) 변수저장.
+    // 3. 배열에 각각의 값을 비교 => 같으면 alert('성공') 아니면 alert('실패');
+
+    document.querySelector('button').addEventListener('click', e => {
+      // 비교할 값을 변수에 저장.
+      let uid = document.querySelector('#uid').value;
+      let upw = document.querySelector('#upw').value;
+
+      let isOk = false; // 반복적으로 경고창을 뜨는거 한번만 보이도록 하기위해서.
+      members.forEach(member => {
+        if (member.id == uid && member.pw == upw) {
+          isOk = true;
+          return;
+        }
+      })
+
+
+
+
+      // for (let i = 0; i < members.length; i++) {
+      //   if (members[i].id = uid && members[i].pw == upw) {
+      //     isOk = true;
+      //     break;
+      //   }
+      // }
+
+      // if (isOk)
+      //   alert('OK');
+      // else 
+      //   alert('NO');
+
+      let result = members.filter(member => member.id == uid && member.pw == upw);
+
+      if (result.length > 0) { // falsy=> 0, '', null, undefined
+        alert('로그인 성공');
+      } else {
+        alert('로그인 실패');
+      }
+
+      // 초기화.
+      document.querySelector('#uid').value = '';
+      document.querySelector('#upw').value = '';
+
+    })
+  </script>
+</body>
+
+</html>

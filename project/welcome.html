@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>환영합니다.</title>
+</head>
+
+<body>
+  <h3>안녕하세요!!!</h3>
+
+  <div id="container">
+
+    <div class="productList">
+      <h3>상품 목록</h3>
+      <table border="2">
+        <thead>
+          <tr>
+            <th>상품코드</th>
+            <th>상품명</th>
+            <th>상품가격</th>
+            <th>담기</th>
+          </tr>
+        </thead>
+        <tbody id="productList"></tbody>
+      </table>
+    </div>
+
+    <div class="cartList">
+      <h3>장바구니 정보</h3>
+      <table border="2">
+        <thead>
+          <tr>
+            <th>상품코드</th>
+            <th>상품명</th>
+            <th>수량</th>
+            <th>금액</th>
+            <th>삭제</th>
+          </tr>
+        </thead>
+        <tbody id="cartList"></tbody>
+      </table>
+    </div>
+
+    <div class="memberList">
+      <h3>회원 정보</h3>
+      <table border="2">
+        <thead>
+          <tr>
+            <th>회원아이디</th>
+            <th>회원명</th>
+            <th>권한</th>
+            <th>비밀번호</th>
+            <th>삭제</th>
+          </tr>
+        </thead>
+        <tbody id="memberList"></tbody>
+      </table>
+    </div>
+
+  </div>
+  <hr>
+  <a href="login.html">로그인페이지로 이동</a>
+
+  <script>
+    // 객체의 정보를 활용해서 row 생성.
+    function makeRow(obj = {}) {
+      let tr = document.createElement('tr');
+      for (let prop in obj) {
+        let td = document.createElement('td');
+        td.innerHTML = obj[prop];
+        tr.appendChild(td);
+      }
+
+      return tr;
+    }
+
+    // product 추가적인 정보 생성하기.
+    function makeProductRow(product = {}) {
+      let tr = makeRow(product);
+      let td = document.createElement('td');
+      let btn = document.createElement('button');
+      btn.innerHTML = '장바구니 담기';
+      td.appendChild(btn);
+      tr.appendChild(td);
+
+      return tr;
+    }
+
+    // cart 추가적인 정보 생성하기.
+    function makeCartRow(cart = {}) {
+      let tr = makeRow(cart);
+      let td = document.createElement('td');
+      let btn = document.createElement('button');
+      btn.innerHTML = '장바구니 삭제';
+      td.appendChild(btn);
+      tr.appendChild(td);
+
+      return tr;
+    }
+
+    // member 추가적인 정보 생성하기.
+    function makeMemberRow(member = {}) {
+      let tr = makeRow(member);
+      let td = document.createElement('td');
+      let btn = document.createElement('button');
+      btn.innerHTML = '회원 삭제';
+      td.appendChild(btn);
+      tr.appendChild(td);
+
+      return tr;
+    }
+
+    // 상품목록.
+    const productData = JSON.parse(localStorage.getItem('productData'));
+    productData.forEach(product => document.querySelector('#productList').appendChild(makeProductRow(product)))
+
+    // 로그인정보.
+    let logId = localStorage.getItem('logId');
+    const memberData = JSON.parse(localStorage.getItem('memberData'));
+
+    const logInfo = memberData.filter(member => member.id == logId);
+
+    // 사용자권한에 따라 장바구니를 보여줄 지 회원목록을 보여줄지 결정.
+    if (logInfo[0].responsibility == 'User') {
+
+      ////////////////////////// 장바구니 ///////////////////////////////////
+      document.querySelector('.memberList').style.display = 'none';
+
+      const cartData = JSON.parse(localStorage.getItem('cartData'));
+      const userCart = cartData.filter(cart => cart.id == logId);
+
+      if (userCart.length) {
+        document.querySelector('.cartList h3').innerHTML += ' (' + logId + ')';
+        userCart.forEach(cart => {
+          // 상품명 가져오기.
+          const productList = productData.filter(product => cart.pcode == product.pcode);
+          let cartInfo = {
+            pcode: productList[0].pcode,
+            pname: productList[0].pname,
+            qty: cart.qty,
+            sum: (productList[0].price * cart.qty)
+          }
+          document.querySelector('#cartList').appendChild(makeCartRow(cartInfo));
+        })
+      }
+
+
+    } else {
+      document.querySelector('.cartList').style.display = 'none';
+
+      ////////////////////////// 회원목록 ///////////////////////////////////
+      const memberList = JSON.parse(localStorage.getItem('memberData'));
+      memberList.forEach(member => {
+        const memberInfo = {
+          id: member.id,
+          name: member.name,
+          responsibility: member.responsibility,
+          pass: member.pw
+        }
+        document.querySelector('#memberList').appendChild(makeMemberRow(memberInfo));
+      })
+
+    }
+    //
+  </script>
+</body>
+
+</html>

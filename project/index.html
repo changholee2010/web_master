@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <!-- 로그인페이지 -->
+  <a href="login.html">로그인 페이지</a>
+
+  <!-- 상품목록페이지 -->
+  <!-- 판매페이지 -->
+  <!-- 입출고페이지 -->
+
+  <script src="data.js"></script>
+  <script>
+    // 데이터를 초기화.
+    localStorage.setItem('memberData', JSON.stringify(memberData));
+    localStorage.setItem('productData', JSON.stringify(productData));
+    localStorage.setItem('cartData', JSON.stringify(cartData));
+  </script>
+</body>
+
+</html>
