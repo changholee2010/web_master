@@ -21,36 +21,43 @@
       pcode: 'P001',
       pname: '사과',
       price: 2000,
+      rating: 5,
       image: 'apple.jpg'
     }, {
       pcode: 'P002',
       pname: '참외',
       price: 1500,
+      rating: 4.5,
       image: 'koreamelon.jpg'
     }, {
       pcode: 'P003',
       pname: '복숭아',
       price: 2500,
+      rating: 3,
       image: 'peach.jpg'
     }, {
       pcode: 'P004',
       pname: '수박',
       price: 5000,
+      rating: 3,
       image: 'watermelon.jpg'
     }, {
       pcode: 'P005',
       pname: '바나나',
       price: 1500,
+      rating: 2.5,
       image: 'banana.jpg'
     }, {
       pcode: 'P006',
       pname: '포도',
       price: 2500,
+      rating: 3.5,
       image: 'grape.jpg'
     }, {
       pcode: 'P007',
       pname: '망고',
       price: 3500,
+      rating: 4.5,
       image: 'mango.jpg'
     }]
 
@@ -79,25 +86,25 @@
 
     Number.prototype.format = function () {
       // 9123456789 => 9,123,456,789
-      let strAry = ('' + this).split('');
-      let cnt = 0;
-      let numStr = '';
-      // strAry.reverse().forEach(word => numStr += cnt++ % 3 ? word : word.replace('', ','));
-      strAry.reverse().reduce((acc, str) => {
-
-      }, '')
-      return numStr.replace(',', '').split('').reverse().join('');
-    }
-    console.log((1123452342).format());
-
-    // 객체의 정보를 활용해서 row 생성.
-    function makeRow(obj = {}) {
-      let tr = document.createElement('tr');
-      for (let prop in obj) {
-        let td = document.createElement('td');
-        td.innerHTML = obj[prop];
-        tr.appendChild(td);
+      // replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+      let ok = true;
+      if (!ok) {
+        return this.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
       }
 
-      return tr;
+      let strAry = ('' + this).split('');
+      let cnt = strAry.length % 3 - 1; // "," 찍을 위치.
+      numStr = strAry.reduce((acc, word, idx) => {
+        idx % 3 == cnt ? acc.push(word + ',') : acc.push(word);
+        return acc;
+      }, []).join('');
+      return numStr.length <= 3 ? numStr : numStr.substring(0, numStr.length - 1); // 마지막 문자(,) 제거하기.
     }
+    // 12,345,567
+    let testNumber = 1234567890;
+    console.log(testNumber.format());
+
+    let qtyAry = [1, 2, 3, 4, 5];
+    let qty = 3;
+    let result = `<begin>${qtyAry.reduce((accm, quantity) => quantity <= qty ? accm + '<svg></svg>' : accm + '', '')}</begin>`;
+    console.log(result);
