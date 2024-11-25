@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .rating {
+      width: fit-content;
+      display: flex;
+      cursor: pointer;
+      gap: 2px;
+      justify-content: center;
+      margin: 50px auto 0;
+    }
+
+    /* js로 주입한 star 요소에 대한 스타일 */
+    .star {
+      position: relative;
+      width: 30px;
+      height: 30px;
+      transition: transform 0.2s ease;
+    }
+
+    .star:hover,
+    .star.filled {
+      transform: scale(1.2);
+    }
+
+    .star-empty,
+    .star-fill {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 30px;
+      height: 30px;
+      background-size: contain;
+      background-repeat: no-repeat;
+      transition: clip-path 0.2s ease;
+    }
+
+    .star-empty {
+      background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBMaWNlbnNlOiBQRC4gTWFkZSBieSBNYXJ5IEFrdmVvOiBodHRwczovL21hcnlha3Zlby5jb20vIC0tPgo8c3ZnIGZpbGw9IiMwMDAwMDAiIHdpZHRoPSI4MDBweCIgaGVpZ2h0PSI4MDBweCIgdmlld0JveD0iMCAwIDI0IDI0IiBpZD0ic3RhciIgZGF0YS1uYW1lPSJMaW5lIENvbG9yIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGNsYXNzPSJpY29uIGxpbmUtY29sb3IiPjxwb2x5Z29uIGlkPSJwcmltYXJ5IiBwb2ludHM9IjEyIDQgOS4yMiA5LjI3IDMgMTAuMTEgNy41IDE0LjIxIDYuNDQgMjAgMTIgMTcuMjcgMTcuNTYgMjAgMTYuNSAxNC4yMSAyMSAxMC4xMSAxNC43OCA5LjI3IDEyIDQiIHN0eWxlPSJmaWxsOiBub25lOyBzdHJva2U6IHJnYigwLCAwLCAwKTsgc3Ryb2tlLWxpbmVjYXA6IHJvdW5kOyBzdHJva2UtbGluZWpvaW46IHJvdW5kOyBzdHJva2Utd2lkdGg6IDI7Ij48L3BvbHlnb24+PC9zdmc+');
+    }
+
+    .star-fill {
+      background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBMaWNlbnNlOiBQRC4gTWFkZSBieSBNYXJ5IEFrdmVvOiBodHRwczovL21hcnlha3Zlby5jb20vIC0tPgo8c3ZnIGZpbGw9IiMwMDAwMDAiIHdpZHRoPSI4MDBweCIgaGVpZ2h0PSI4MDBweCIgdmlld0JveD0iMCAwIDI0IDI0IiBpZD0ic3RhciIgZGF0YS1uYW1lPSJGbGF0IENvbG9yIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGNsYXNzPSJpY29uIGZsYXQtY29sb3IiPjxwYXRoIGlkPSJwcmltYXJ5IiBkPSJNMjIsOS44MWExLDEsMCwwLDAtLjgzLS42OWwtNS43LS43OEwxMi44OCwzLjUzYTEsMSwwLDAsMC0xLjc2LDBMOC41Nyw4LjM0bC01LjcuNzhhMSwxLDAsMCwwLS44Mi42OSwxLDEsMCwwLDAsLjI4LDFsNC4wOSwzLjczLTEsNS4yNEExLDEsMCwwLDAsNi44OCwyMC45TDEyLDE4LjM4bDUuMTIsMi41MmExLDEsMCwwLDAsLjQ0LjEsMSwxLDAsMCwwLDEtMS4xOGwtMS01LjI0LDQuMDktMy43M0ExLDEsMCwwLDAsMjIsOS44MVoiIHN0eWxlPSJmaWxsOiByZ2IoMCwgMCwgMCk7Ij48L3BhdGg+PC9zdmc+');
+      clip-path: inset(0 100% 0 0);
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="rating" id="rating"></div>
+
+  <script>
+    const RATING_COUNT = 5;;
+    let currentRating = 0;
+    let hoveredRating = 0;
+
+    const rating = document.getElementById('rating');
+
+    // rating의 하위에 
+    const updateStars = (value) => {
+      const stars = rating.children;
+      for (let i = 0; i < RATING_COUNT; i++) {
+        const fillPercentage = getClipPathPercent(i + 1, value);
+        stars[i].querySelector('.star-fill').style.clipPath = `inset(0 ${fillPercentage}% 0 0)`;
+        if (fillPercentage < 100) {
+          stars[i].classList.add('filled');
+        } else {
+          stars[i].classList.remove('filled');
+        }
+      }
+    };
+
+    const createStarElement = () => {
+      // <div class="start"><div class="star-empty"></div><div class="star-fill"></div></div>
+      const star = document.createElement('div');
+      star.className = 'star';
+
+      const starEmpty = document.createElement('div');
+      starEmpty.className = 'star-empty';
+      star.appendChild(starEmpty);
+
+      const starFill = document.createElement('div');
+      starFill.className = 'star-fill';
+      star.appendChild(starFill);
+
+      return star;
+    };
+
+    const getClipPathPercent = (starIndex, value) => {
+      if (starIndex <= value) return 0;
+      return (starIndex - value === 0.5) ? 50 : 100;
+    };
+
+    const handleMouseMove = (e) => {
+      const rect = rating.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const width = rect.width;
+
+      const value = Math.ceil((x / width) * RATING_COUNT * 2) / 2;
+      hoveredRating = Math.min(Math.max(value, 0.5), RATING_COUNT);
+
+      updateStars(hoveredRating);
+    };
+
+    const fixRating = () => {
+      if (hoveredRating === 0) return;
+
+      currentRating = hoveredRating;
+      updateStars(currentRating);
+    };
+
+    const resetRating = () => {
+      hoveredRating = 0;
+      updateStars(currentRating);
+    };
+
+    rating.addEventListener('mousemove', handleMouseMove);
+    rating.addEventListener('mouseleave', resetRating);
+    rating.addEventListener('click', fixRating);
+
+    for (let i = 0; i < RATING_COUNT; i++) {
+      rating.appendChild(createStarElement());
+    }
+
+    updateStars(currentRating);
+  </script>
+</body>
+
+</html>
